@@ -1,0 +1,12 @@
+N a E 5.
+C b E 'a'.
+V m E "hello world!".
+
+P l.
+I (a U 0) F
+	W m.
+	a E a S 1.
+	J l.
+F
+
+
