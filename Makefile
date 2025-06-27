@@ -19,8 +19,10 @@ TESTFILE=test.let
 GRAMMAR=Letters.g4
 
 CC=g++
-CFLAGS=-Wall -g -I/usr/local/incude/antlr4-runtime/
+CFLAGS=-Wall -g -I/usr/local/include/antlr4-runtime/
+LDFLAGS=-Wall -g -lantlr4-runtime
 
+BUILDDIR=build/
 CFILES=$(wildcard *.cpp)
 HFILES=$(wildcard *.h)
 
@@ -28,14 +30,15 @@ OBJS=$(CFILES:.cpp=.o)
 
 # --- shouldn't need to edit beyond this point ---
 
-all: $(TARGET) gen
+all: $(TARGET)
 .PHONY: clean test
 
 gen: $(GRAMMAR)
 	$(ANTLR) -Dlanguage=Cpp -visitor -no-listener -encoding UTF-8 $^
 
 $(TARGET): $(OBJS)
-	$(CC) -o $@ $^
+	$(CC) -o $@ $^ $(LDFLAGS)
+	mv *.o $(BUILDDIR)
 
 %.o : %.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
