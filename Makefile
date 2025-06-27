@@ -19,7 +19,7 @@ TESTFILE=test.let
 GRAMMAR=Letters.g4
 
 CC=g++
-CFLAGS=-Wall -g -I/usr/local/include/antlr4-runtime/
+CFLAGS=-Wall -g -I/usr/local/include/antlr4-runtime/ -Wno-overloaded-virtual
 LDFLAGS=-Wall -g -lantlr4-runtime
 
 BUILDDIR=build/
@@ -42,6 +42,9 @@ $(TARGET): $(OBJS)
 
 %.o : %.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
+
+test:
+	./$(TARGET) $(TESTFILE)
 
 clean:
 	rm -f $(GENFILES) Letters.interp LettersLexer.interp Letters.tokens LettersLexer.tokens

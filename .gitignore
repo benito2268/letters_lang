@@ -3,3 +3,5 @@ letters
 *.interp
 *.tokens
 *test*
+*.swp
+*.swo
