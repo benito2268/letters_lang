@@ -19,8 +19,8 @@ TESTFILE=test.let
 GRAMMAR=Letters.g4
 
 CC=g++
-CFLAGS=-Wall -g -I/usr/local/include/antlr4-runtime/ -Wno-overloaded-virtual
-LDFLAGS=-Wall -g -lantlr4-runtime
+CFLAGS=-Wall -g -std=c++20 -I/usr/local/include/antlr4-runtime/ -Wno-overloaded-virtual
+LDFLAGS=-Wall -g -std=c++20 -lantlr4-runtime
 
 BUILDDIR=build/
 CFILES=$(wildcard *.cpp)
@@ -31,7 +31,7 @@ OBJS=$(CFILES:.cpp=.o)
 # --- shouldn't need to edit beyond this point ---
 
 all: $(TARGET)
-.PHONY: clean test
+.PHONY: clean test headertest
 
 gen: $(GRAMMAR)
 	$(ANTLR) -Dlanguage=Cpp -visitor -no-listener -encoding UTF-8 $^
@@ -45,6 +45,25 @@ $(TARGET): $(OBJS)
 
 test:
 	./$(TARGET) $(TESTFILE)
+
+headertest:
+	@echo "Compiling Header Files..."
+	@all_ok=0; \
+	green=$$(tput setaf 2); \
+	red=$$(tput setaf 1); \
+	normal=$$(tput sgr0); \
+	for h in $(HFILES); do \
+		echo "#include \"$$h\"" | $(CC) $(CFLAGS) -x c++ -fsyntax-only -; \
+		status=$$?; \
+		if [ $$status -eq 0 ]; then \
+			printf "%s %s%s%s\n" "$$h" "$$green" "OK" "$$normal"; \
+		else \
+			printf "%s %s%s%s\n" "$$h" "$$red" "FAIL" "$$normal"; \
+			echo "$$output"; \
+			all_ok=1; \
+		fi; \
+	done; \
+	exit $$all_ok
 
 clean:
 	rm -f $(GENFILES) Letters.interp LettersLexer.interp Letters.tokens LettersLexer.tokens

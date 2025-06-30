@@ -1,10 +1,14 @@
 #include <iostream>
 #include <string>
+#include <memory>
 
 #include "antlr4-runtime.h"
 #include "LettersLexer.h"
 #include "LettersParser.h"
 #include "utils.h"
+
+#include "symtab.h"
+#include "sym.h"
 
 using namespace antlr4;
 
@@ -28,10 +32,9 @@ int main(int argc, char *argv[]) {
 
 	LettersParser parser(&tokens);
 
-
 	//un-parse for debugging
-	tree::ParseTree *tree = parser.program();
-	std::cout << tree->toStringTree(&parser) << std::endl;
+	//std::unique_ptr<tree::ParseTree> tree(parser.program());
+	//std::cout << tree->toStringTree(&parser) << std::endl;
 
 	return 0;
 }

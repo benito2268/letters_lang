@@ -2,6 +2,5 @@ build/*
 letters
 *.interp
 *.tokens
-*test*
 *.swp
 *.swo

@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "sym.h"
 #include "type.h"
 
@@ -20,3 +22,4 @@ TypeName Sym::get_type() {
 void Sym::set_type(TypeName t) {
 	this->type = t;
 }
+
